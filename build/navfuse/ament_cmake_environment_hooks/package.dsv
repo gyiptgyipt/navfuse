@@ -1,0 +1,4 @@
+source;share/navfuse/local_setup.bash
+source;share/navfuse/local_setup.dsv
+source;share/navfuse/local_setup.sh
+source;share/navfuse/local_setup.zsh
