@@ -1,0 +1,28 @@
+[0.130s] Invoking command in '/home/zyme/ros_ws/navfuse/build/navfuse': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/zyme/ros_ws/navfuse/build/navfuse -- -j12 -l12
+[0.168s] Invoked command in '/home/zyme/ros_ws/navfuse/build/navfuse' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/zyme/ros_ws/navfuse/build/navfuse -- -j12 -l12
+[0.198s] Invoking command in '/home/zyme/ros_ws/navfuse/build/navfuse': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/zyme/ros_ws/navfuse/build/navfuse
+[0.205s] -- Install configuration: ""
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/tran.launch.py
+[0.205s] -- Installing: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/test.launch.xml
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/mapviz.launch.py
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/launch.launch.py
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//config
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//config/ekf_with_gps.yaml
+[0.205s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//config/navsat_transform.yaml
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/ament_index/resource_index/package_run_dependencies/navfuse
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/ament_index/resource_index/parent_prefix_path/navfuse
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/environment/ament_prefix_path.sh
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/environment/ament_prefix_path.dsv
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/environment/path.sh
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/environment/path.dsv
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/local_setup.bash
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/local_setup.sh
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/local_setup.zsh
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/local_setup.dsv
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/package.dsv
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/ament_index/resource_index/packages/navfuse
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/cmake/navfuseConfig.cmake
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/cmake/navfuseConfig-version.cmake
+[0.206s] -- Up-to-date: /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/package.xml
+[0.208s] Invoked command in '/home/zyme/ros_ws/navfuse/build/navfuse' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/zyme/ros_ws/navfuse/build/navfuse

@@ -29,7 +29,7 @@ def generate_launch_description():
             executable='navsat_transform_node',
             name='navsat_transform_node',
             output='screen',
-            parameters=[os.path.join(get_package_share_directory("navfuse"), 'config', 'ekf_with_gps.yaml')],
+            parameters=[os.path.join(get_package_share_directory("navfuse"), 'config', 'navsat_transform.yaml')],
             remappings=[
                 ('/imu/data', '/imu/micro'),
                 ('/gps/fix', '/gps/micro'),

@@ -1,7 +1,9 @@
-/home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/test.launch
+/home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/tran.launch.py
+/home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/test.launch.xml
 /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/mapviz.launch.py
 /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//launch/launch.launch.py
 /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//config/ekf_with_gps.yaml
+/home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse//config/navsat_transform.yaml
 /home/zyme/ros_ws/navfuse/install/navfuse/share/ament_index/resource_index/package_run_dependencies/navfuse
 /home/zyme/ros_ws/navfuse/install/navfuse/share/ament_index/resource_index/parent_prefix_path/navfuse
 /home/zyme/ros_ws/navfuse/install/navfuse/share/navfuse/environment/ament_prefix_path.sh

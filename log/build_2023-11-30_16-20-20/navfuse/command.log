@@ -1,0 +1,4 @@
+Invoking command in '/home/zyme/ros_ws/navfuse/build/navfuse': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/zyme/ros_ws/navfuse/build/navfuse -- -j12 -l12
+Invoked command in '/home/zyme/ros_ws/navfuse/build/navfuse' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/zyme/ros_ws/navfuse/build/navfuse -- -j12 -l12
+Invoking command in '/home/zyme/ros_ws/navfuse/build/navfuse': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/zyme/ros_ws/navfuse/build/navfuse
+Invoked command in '/home/zyme/ros_ws/navfuse/build/navfuse' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/zyme/ros_ws/navfuse/build/navfuse
