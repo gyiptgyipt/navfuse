@@ -47,7 +47,7 @@ def generate_launch_description():
             name='ekf_odom',
             output='screen',
             clear_params='true',
-            parameters={
+            parameters=[
                 "imu0": "/imu/micro",
                 "frequency": 30,
                 "sensor_timeout": 2,
@@ -62,6 +62,6 @@ def generate_launch_description():
                 "print_diagnostics": True,
                 "debug": False,
                 "debug_out_file": "$(env HOME)/adroit_files/debug_ekf_localization.txt"
-            }
+            ]
         )
     ])

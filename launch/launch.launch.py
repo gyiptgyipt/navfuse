@@ -33,6 +33,7 @@ def generate_launch_description():
             remappings=[
                 ('/imu/data', '/imu/micro'),
                 ('/gps/fix', '/gps/micro'),
+                ('/odometry/filtered', '/odometry/filtered'),
         ]
            ),
 ])
