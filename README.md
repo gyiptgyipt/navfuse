@@ -1,2 +1,2 @@
 # navfuse
-robot localization with tile_map using mapviz
+robot localization with tile_map (mapviz)
