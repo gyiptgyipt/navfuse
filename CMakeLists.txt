@@ -29,7 +29,7 @@ endif()
 
 
 add_executable(gps_frame src/gps_frame.cpp)
-ament_target_dependencies(gps_frame rclcpp tf2 tf2_ros sensor_msgs swri_transform_util)
+ament_target_dependencies(gps_frame rclcpp tf2 tf2_ros sensor_msgs swri_transform_util geometry_msgs)
 
 
 install(TARGETS

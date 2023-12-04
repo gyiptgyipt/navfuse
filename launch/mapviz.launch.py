@@ -16,6 +16,16 @@ def generate_launch_description():
             ]
         ),
         launch_ros.actions.Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="odom",
+            # args: x y z yaw=-1.13 pitch roll
+            arguments=["0", "0", "0", "0", "0", "0", "world", "odom"],
+            parameters=[
+                {"use_sim_time": True}
+            ]
+        ),
+        launch_ros.actions.Node(
             package="swri_transform_util",
             executable="initialize_origin.py",
             name="initialize_origin",
