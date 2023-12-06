@@ -32,7 +32,8 @@ def generate_launch_description():
             parameters=[
                 {"local_xy_frame": "map"},
                 {"local_xy_origin" : "auto"},
-                {"local_xy_navsatfix_topic" : "/gps/micro"}
+                {"local_xy_navsatfix_topic" : "/fix"}
+                # {"local_xy_navsatfix_topic" : "/fix"}
             ],
         ),
         launch_ros.actions.Node(

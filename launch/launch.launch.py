@@ -24,16 +24,35 @@ from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     return LaunchDescription([
+
+        launch_ros.actions.Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='bl_gps',
+            output='screen',
+            arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'gps_link']
+        ),
+
         launch_ros.actions.Node(
             package='robot_localization',
             executable='navsat_transform_node',
             name='navsat_transform_node',
             output='screen',
-            parameters=[os.path.join(get_package_share_directory("navfuse"), 'config', 'navsat_transform.yaml')],
+            #parameters=[os.path.join(get_package_share_directory("navfuse"), 'config', 'navsat_transform.yaml')],
             remappings=[
-                ('/imu/data', '/imu/micro'),
-                ('/gps/fix', '/gps/micro'),
-                ('/odometry/filtered', '/odometry/filtered'),
+                # ('/imu/data', '/imu/micro'),
+                #('/gps/fix', '/gps/micro'),
+                ('/gps/fix', '/fix'),
+                # ('/odometry/filtered', '/odometry/filtered'),
         ]
            ),
+        # launch_ros.actions.Node(
+        #     package='robot_localization',
+        #     executable='ekf_node',
+        #     name="ekf_localization_node",
+        #     output='screen',
+        #     parameters=[os.path.join(get_package_share_directory("navfuse"), 'config', 'ekf_with_gps.yaml')],
+
+
+        # ),
 ])

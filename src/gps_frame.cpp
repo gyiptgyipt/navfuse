@@ -22,6 +22,7 @@
 // LocalXyWgs84UtilPtr local_xy_util; 
 // swri_transform_util::LocalXyFromWgs84
 
+
 class GPS_FRAME : public rclcpp::Node {
 public:
     GPS_FRAME() : Node("GPS_FRAME") {
@@ -35,34 +36,54 @@ public:
     }
 
 private:
-    // void rec_data(const sensor_msgs::msg::Imu::SharedPtr msg) {
-    
-    // }
+
 
     void gps_frame_pub( const std::shared_ptr<sensor_msgs::msg::NavSatFix> msg) {
 
-                geometry_msgs::msg::TransformStamped transform_stamped;
+
+        swri_transform_util::Transform transform;
+// Assuming msg.header.frame_id is "/wgs84" if the data is actually lat/lon
+        if (tf_manager.GetTransform("map", msg.header.frame_id, msg.header.stamp, transform)
+    {
+                tf::Vector3 point(
+                object_boxes.markers[0].pose.position.x, 
+                object_boxes.markers[0].pose.position.y, 
+                object_boxes.markers[0].pose.position.z);
+                point = transform * point;
+}
+
+
+
+        // double x, y; // points for map
+        // swri_transform_util::LocalXyFromWgs84(msg->latitude, // latitude of point
+        //                                       msg->longitude, // longitude of point
+        //                                       pose_origin.pose.position.y, // latitude for localXYorigin
+        //                                       pose_origin.pose.position.x, // longitude localXYorigin
+        //                                       x,
+        //                                       y);
+
+        //         geometry_msgs::msg::TransformStamped transform_stamped;
         
-        transform_stamped.header.stamp = this->get_clock()->now();
-        transform_stamped.header.frame_id = "map";  // Parent frame
-        transform_stamped.child_frame_id = "gps_link";   // Child frame
-        transform_stamped.transform.translation.x = msg->longitude;  // Assuming no translation
-        transform_stamped.transform.translation.y = msg->latitude;
-        transform_stamped.transform.translation.z = 0.0;
+        // transform_stamped.header.stamp = this->get_clock()->now();
+        // transform_stamped.header.frame_id = "map";  // Parent frame
+        // transform_stamped.child_frame_id = "gps_link";   // Child frame
+        // transform_stamped.transform.translation.x = msg->longitude;  // Assuming no translation
+        // transform_stamped.transform.translation.y = msg->latitude;
+        // transform_stamped.transform.translation.z = 0.0;
 
-        tf2::Quaternion q;
-        q.setRPY(0, 0, 0);
-        transform_stamped.transform.rotation.x = q.x();
-        transform_stamped.transform.rotation.y = q.y();
-        transform_stamped.transform.rotation.z = q.z();
-        transform_stamped.transform.rotation.w = q.w();
-        // RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->angular_velocity.y);
+        // tf2::Quaternion q;
+        // q.setRPY(0, 0, 0);
+        // transform_stamped.transform.rotation.x = q.x();
+        // transform_stamped.transform.rotation.y = q.y();
+        // transform_stamped.transform.rotation.z = q.z();
+        // transform_stamped.transform.rotation.w = q.w();
+        // // RCLCPP_INFO(this->get_logger(), "I heard: '%f'", msg->angular_velocity.y);
 
         
-        // transform_stamped.transform.rotation = tf2::toMsg(tf_orientation);
+        // // transform_stamped.transform.rotation = tf2::toMsg(tf_orientation);
 
-        // Broadcast the transformation
-        tf_broadcaster_->sendTransform(transform_stamped);
+        // // Broadcast the transformation
+        // tf_broadcaster_->sendTransform(transform_stamped);
 
        
 
