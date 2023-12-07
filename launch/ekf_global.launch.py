@@ -42,7 +42,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    package_dir = get_package_share_directory('robomagellan')
+    package_dir = get_package_share_directory('navfuse')
     config_file = os.path.join(package_dir, 'config', 'ekf_global.yaml')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -52,6 +52,29 @@ def generate_launch_description():
             'use_sim_time', default_value='false',
             description='Use clock topic (from bagfile) if true'),
 
+
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='map_link',
+            output='screen',
+            arguments=['0', '0', '0', '0', '0', '0', '1', 'map', 'odom']
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='odom_link',
+            output='screen',
+            arguments=['0', '0', '0', '0', '0', '0', '1', 'odom', 'base_link']
+        ),
+
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            name='bl_gps',
+            output='screen',
+            arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'gps_link']
+        ),
         # EKF node for global odometry
         Node(
             name='ekf_global_odom',
@@ -59,12 +82,14 @@ def generate_launch_description():
             executable='ekf_node',
             parameters=[config_file,
                         {'use_sim_time': True}],
+            output = 'screen',
             # Subscriptions (in yaml):
             #   odom0: odometry/gps (from navsat node)
             #   odom1: base_controller/odom
             #   imu0:  imu/data
             # Publishes odometry/global
-            remappings=[('odometry/filtered', 'odometry/global')]
+            remappings=[('/odometry/filtered', '/odometry/global')]
+            
         ),
 
         # Turn GPS fix into odometry message for EKF
@@ -77,13 +102,17 @@ def generate_launch_description():
             # zero_altitude - pretends the world is flat
             # use_odometry_yaw - false, use IMU yaw
             parameters=[{'yaw_offset': 0.0,
-                         'magnetic_declination_radians': 0.2516183,
+                         'magnetic_declination_radians': 0.0,
+                         'broadcast_cartesian_transform': True,
                          'zero_altitude': True,
-                         'publish_filtered_gps': False,
+                         'publish_filtered_gps': True,
                          'frequency': 10.0,
                          'use_odometry_yaw': False}],
+            output = 'screen',                                                            
             # Subscribes to imu/data, gps/fix, odometry/global
             # Publishes gps/filtered, odometry/gps
-            remappings=[('odometry/filtered', 'odometry/global')]
+            remappings=[('/odometry/filtered', '/odometry/global'),
+                        ('/imu','/imu/data'),
+                        ('/gps/fix','/fix')]
         )
     ])
