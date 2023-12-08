@@ -14,6 +14,8 @@ find_package(std_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(swri_transform_util REQUIRED)
+find_package(swri_math_util REQUIRED)
+find_package(gps_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -32,8 +34,14 @@ endif()
 # ament_target_dependencies(gps_frame rclcpp tf2 tf2_ros sensor_msgs swri_transform_util geometry_msgs)
 
 
+add_executable(gps_transform_publisher src/gps_transform_publisher.cpp)
+ament_target_dependencies(gps_transform_publisher rclcpp tf2 tf2_ros sensor_msgs swri_transform_util geometry_msgs swri_math_util)
+
+
+
 install(TARGETS
   #gps_frame
+  gps_transform_publisher
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY
