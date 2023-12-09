@@ -16,6 +16,10 @@ find_package(tf2_ros REQUIRED)
 find_package(swri_transform_util REQUIRED)
 find_package(swri_math_util REQUIRED)
 find_package(gps_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
+find_package (GeographicLib REQUIRED)
+add_definitions (${GeographicLib_DEFINITIONS})
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -30,8 +34,8 @@ if(BUILD_TESTING)
 endif()
 
 
-# add_executable(gps_frame src/gps_frame.cpp)
-# ament_target_dependencies(gps_frame rclcpp tf2 tf2_ros sensor_msgs swri_transform_util geometry_msgs)
+add_executable(gps_frame src/gps_frame.cpp)
+ament_target_dependencies(gps_frame rclcpp sensor_msgs GeographicLib visualization_msgs)
 
 
 add_executable(gps_transform_publisher src/gps_transform_publisher.cpp)
@@ -40,7 +44,7 @@ ament_target_dependencies(gps_transform_publisher rclcpp tf2 tf2_ros sensor_msgs
 
 
 install(TARGETS
-  #gps_frame
+  gps_frame
   gps_transform_publisher
   DESTINATION lib/${PROJECT_NAME})
 

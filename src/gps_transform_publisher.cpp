@@ -7,7 +7,6 @@
 #include <functional>
 #include <memory>
 
-
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <swri_transform_util/transform_util.h>
 #include <swri_transform_util/transform_manager.h>
@@ -59,14 +58,14 @@ private:
 
     // if (!tf_manager_)
     // {
-    //   InitTransformManager();
+    //   swri_transform_util::TransformManager::Initialize(20.0);
     // }
 
     // Get the position by converting lat/lon to LocalXY.
     swri_transform_util::Transform to_local_xy;
     std::string global_frame = "map";
-    // if (tf_manager_->GetTransform(global_frame, swri_transform_util::_wgs84_frame, tf2::TimePointZero, to_local_xy))
-    // {
+    if (tf_manager_->GetTransform(global_frame, swri_transform_util::_wgs84_frame, tf2::TimePointZero, to_local_xy))
+    {
       tf2::Vector3 position(gps_fix->longitude, gps_fix->latitude, 0.0);
       position = position;
       transform.setOrigin(position);
@@ -81,7 +80,7 @@ private:
       tf_broadcaster_->sendTransform(tf_stamped);
       RCLCPP_INFO(this->get_logger(), "pos is : '%f'", gps_fix->longitude);
 
-    // }
+    }
   }
   // namespace swri_transform_util
 
