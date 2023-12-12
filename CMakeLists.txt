@@ -17,8 +17,11 @@ find_package(swri_transform_util REQUIRED)
 find_package(swri_math_util REQUIRED)
 find_package(gps_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
-find_package (GeographicLib REQUIRED)
+
+# set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};/home/zyme/geographiclib/build/cmake/geographiclib.pc")
 add_definitions (${GeographicLib_DEFINITIONS})
+find_package (GeographicLib REQUIRED)
+
 
 
 if(BUILD_TESTING)
@@ -34,8 +37,8 @@ if(BUILD_TESTING)
 endif()
 
 
-# add_executable(gps_frame src/gps_frame.cpp)
-# ament_target_dependencies(gps_frame rclcpp sensor_msgs GeographicLib visualization_msgs)
+add_executable(gps_frame src/gps_frame.cpp)
+ament_target_dependencies(gps_frame rclcpp sensor_msgs GeographicLib visualization_msgs tf2 tf2_ros)
 
 
 # add_executable(gps_transform_publisher src/gps_transform_publisher.cpp)
@@ -44,15 +47,18 @@ endif()
 
 
 install(TARGETS
-  #gps_frame
+  gps_frame
   #gps_transform_publisher
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY
   launch
   config
+  ${GeographicLib_INCLUDE_DIRS}
   DESTINATION share/${PROJECT_NAME}/
 )
+
+
 # install(FILES launch/test.launch.xml
 #   DESTINATION share/${PROJECT_NAME}/launch)
 
