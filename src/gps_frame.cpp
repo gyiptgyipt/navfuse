@@ -8,6 +8,7 @@
 #include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/Geocentric.hpp>
 #include <geometry_msgs/msg/point.hpp>
+#include <geometry_msgs/msg/pose.hpp>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "tf2/LinearMath/Quaternion.h"
@@ -42,9 +43,6 @@ private:
         double lat_origin, lon_origin, alt_origin;
         bool first_frame = true;
 
-        visualization_msgs::msg::Marker line_strip;    
-
-        
         GeographicLib::LocalCartesian local_geo;
         GeographicLib::Geocentric earth(GeographicLib::Constants::WGS84_a(),
                                 GeographicLib::Constants::WGS84_f());
@@ -52,7 +50,7 @@ private:
         if (first_frame) {
             lat_origin = msg->latitude;
             lon_origin = msg->longitude;
-            alt_origin = 0.0;
+            alt_origin = msg->altitude;
             local_geo = GeographicLib::LocalCartesian(lat_origin,
                                                     lon_origin,
                                                     alt_origin,
@@ -62,23 +60,24 @@ private:
         }
 
 
-          double x, y, z;
+         double x, y, z;
   // Warning: if the measurement of altitude is wrong,
   // then the result of projection will be wrong.
-        local_geo.Forward(msg->latitude, msg->longitude, 0.0, x, y, z);
+        local_geo.Forward(msg->latitude, msg->longitude, msg->altitude, x, y, z);
 
 
         std::cout << "Status: " << static_cast<int>(msg->status.status) << std::endl;
         std::cout << "(latitude, longitude, altitude)(deg, m) => (x, y, z)(m) = ("
             << std::to_string(msg->latitude) << ", "
             << std::to_string(msg->longitude) << ", "
-            << std::to_string(0.0) << ") => ("
+            << std::to_string(msg->altitude) << ") => ("
             << x << ", "
             << y << ", "
             << z << ")" << std::endl;
     
-        // RCLCPP_INFO(this->get_logger(), x);
 
+
+        auto line_strip = visualization_msgs::msg::Marker();    
 
         geometry_msgs::msg::Point p;
         p.x = x;
@@ -89,18 +88,31 @@ private:
         if (line_strip.points.size() > 10000)
         line_strip.points.clear();
 
+        // std::cout<<p.x<<std::endl;
+
 
         
-        line_strip.header.frame_id = "/linestrip";
-        line_strip.ns = "linestrip";
+        line_strip.header.frame_id = "linestrip";
+        line_strip.ns = "linestrip_ns";
         line_strip.action = visualization_msgs::msg::Marker::ADD;
+        line_strip.header.stamp = this->now();
+        line_strip.pose = geometry_msgs::msg::Pose();
         line_strip.pose.orientation.w = 1.0;
-        line_strip.id = 1;
+        line_strip.id = 0;
         line_strip.type = visualization_msgs::msg::Marker::LINE_STRIP;
+        line_strip.scale.x = 1.0;
+        line_strip.scale.y = 1.0;
+        line_strip.scale.z = 1.0;
 
-        line_strip.scale.x = 0.5;
-        line_strip.color.r = 1.0;
+
+        line_strip.pose.position.x = 0;
+        line_strip.pose.position.y = 0;
+        line_strip.pose.position.z = 0;
+
         line_strip.color.a = 1.0;
+        line_strip.color.r = 0.0;
+        line_strip.color.g = 1.0;
+        line_strip.color.b = 0.0;
 
         marker_publisher_->publish(line_strip);
 
@@ -109,7 +121,7 @@ private:
 
         transform_stamped.header.stamp = this->get_clock()->now();
         transform_stamped.header.frame_id ="map";  // Parent frame
-        transform_stamped.child_frame_id = "/linestrip";   // Child frame
+        transform_stamped.child_frame_id = "linestrip";   // Child frame
         transform_stamped.transform.translation.x = 0;  
         transform_stamped.transform.translation.y = 0.0;
         transform_stamped.transform.translation.z = 0.27; 

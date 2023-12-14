@@ -17,6 +17,7 @@
   <depend>tf2_ros</depend>
   <depend>swri_transform_util</depend>
   <depend>swri_math_util</depend>
+  <depend>visualization_msgs</depend>
   <depend>gps_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
