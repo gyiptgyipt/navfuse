@@ -71,7 +71,7 @@ install(DIRECTORY
 # install(FILES launch/test.launch.xml
 #   DESTINATION share/${PROJECT_NAME}/launch)
 
-install(PROGRAMS demo_data/fake_gps
+install(PROGRAMS demo_data/publish_demo_data
   DESTINATION lib/${PROJECT_NAME})
 
 install(PROGRAMS

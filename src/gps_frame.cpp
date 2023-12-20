@@ -5,6 +5,9 @@
 
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <visualization_msgs/msg/marker.hpp>
+#include "visualization_msgs/msg/marker_array.hpp"
+
+
 #include <GeographicLib/LocalCartesian.hpp>
 #include <GeographicLib/Geocentric.hpp>
 #include <geometry_msgs/msg/point.hpp>
@@ -28,7 +31,7 @@ public:
 
 
         marker_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>("/gps_marker", 10);
-
+        array_publisher_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("line_strip_marker", 10);
         tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this);
 
 
@@ -60,62 +63,60 @@ private:
         }
 
 
-         double x, y, z;
+        double x, y, z;
+        double X,Y,Z;
   // Warning: if the measurement of altitude is wrong,
   // then the result of projection will be wrong.
-        local_geo.Forward(msg->latitude, msg->longitude, msg->altitude, x, y, z);
+        local_geo.Forward(msg->latitude, msg->longitude,0.01, x, y, z);
 
+        X = x * pow(10,11);
+        Y = y * pow(10,11);
+        Z = z;
 
         std::cout << "Status: " << static_cast<int>(msg->status.status) << std::endl;
         std::cout << "(latitude, longitude, altitude)(deg, m) => (x, y, z)(m) = ("
             << std::to_string(msg->latitude) << ", "
             << std::to_string(msg->longitude) << ", "
             << std::to_string(msg->altitude) << ") => ("
-            << x << ", "
-            << y << ", "
-            << z << ")" << std::endl;
+            << X << ", "
+            << Y << ", "
+            << Z << ")" << std::endl;
     
 
 
-        auto line_strip = visualization_msgs::msg::Marker();    
+        auto line_strip = visualization_msgs::msg::Marker();
+         auto markerArray = std::make_shared<visualization_msgs::msg::MarkerArray>();
 
-        geometry_msgs::msg::Point p;
-        p.x = x;
-        p.y = y;
-        p.z = z;
-
-        line_strip.points.push_back(p);
-        if (line_strip.points.size() > 10000)
-        line_strip.points.clear();
-
+   
         // std::cout<<p.x<<std::endl;
 
 
-        
-        line_strip.header.frame_id = "linestrip";
-        line_strip.ns = "linestrip_ns";
-        line_strip.action = visualization_msgs::msg::Marker::ADD;
-        line_strip.header.stamp = this->now();
-        line_strip.pose = geometry_msgs::msg::Pose();
-        line_strip.pose.orientation.w = 1.0;
-        line_strip.id = 0;
+        line_strip.header.frame_id = "line_strip";
         line_strip.type = visualization_msgs::msg::Marker::LINE_STRIP;
-        line_strip.scale.x = 1.0;
-        line_strip.scale.y = 1.0;
-        line_strip.scale.z = 1.0;
-
-
-        line_strip.pose.position.x = 0;
-        line_strip.pose.position.y = 0;
-        line_strip.pose.position.z = 0;
-
-        line_strip.color.a = 1.0;
-        line_strip.color.r = 0.0;
-        line_strip.color.g = 1.0;
+        line_strip.action = visualization_msgs::msg::Marker::ADD;
+        line_strip.scale.x = 5.5;  // Line width
+        line_strip.color.r = 1.0;
+        line_strip.color.g = 0.0;
         line_strip.color.b = 0.0;
+        line_strip.color.a = 1.0;
 
+
+        auto p = geometry_msgs::msg::Point();
+        p.x = X;
+        p.y = Y;
+        p.z = 0;
+
+        line_strip.points.push_back(p);
+        // if (line_strip.points.size() > 10000)
+        // line_strip.points.clear(); 
+
+
+
+        markerArray->markers.push_back(line_strip);
+
+        array_publisher_->publish(*markerArray);
         marker_publisher_->publish(line_strip);
-
+        
 
         geometry_msgs::msg::TransformStamped transform_stamped;
 
@@ -138,6 +139,7 @@ private:
      }
 
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_publisher_;
+    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr array_publisher_;
     rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr gps_subscriber_;
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 

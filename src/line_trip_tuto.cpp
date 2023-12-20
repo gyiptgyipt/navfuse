@@ -1,78 +1,50 @@
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
-
+// my_line_strip_pkg_cpp/src/publisher_node.cpp
 #include "rclcpp/rclcpp.hpp"
-#include <visualization_msgs/msg/marker.hpp>
+#include "visualization_msgs/msg/marker_array.hpp"
+#include "geometry_msgs/msg/point.hpp"
 
-class SquareMarkerPublisher : public rclcpp::Node {
+class LineStripPublisher : public rclcpp::Node {
 public:
-    SquareMarkerPublisher() : Node("square_marker_publisher") {
-        marker_publisher_ = create_publisher<visualization_msgs::msg::Marker>("square_marker", 10);
-
-        // Set up the square marker
-        line_striper();
-
-    }
+  LineStripPublisher() : Node("line_strip_publisher") {
+    publisher_ = this->create_publisher<visualization_msgs::msg::MarkerArray>("line_strip_marker", 10);
+    timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&LineStripPublisher::publishLineStrip, this));
+  }
 
 private:
-    
-    void line_striper(){
-        auto square_marker_ = visualization_msgs::msg::Marker();  
+  void publishLineStrip() {
+    auto markerArray = std::make_shared<visualization_msgs::msg::MarkerArray>();
 
-        square_marker_.header.frame_id = "base_link"; // Set the frame ID according to your needs
-        square_marker_.header.stamp = this->get_clock()->now();
-        square_marker_.id = 0;
-        square_marker_.type = visualization_msgs::msg::Marker::LINE_STRIP;
-        square_marker_.action = visualization_msgs::msg::Marker::ADD;
-        square_marker_.pose.orientation.w = 1.0;
-        square_marker_.scale.x = 0.05; // Line width
-        square_marker_.color.r = 0.0;
-        square_marker_.color.g = 1.0;
-        square_marker_.color.b = 0.0;
-        square_marker_.color.a = 1.0;
+    auto marker = visualization_msgs::msg::Marker();
+    marker.header.frame_id = "base_link";
+    marker.type = visualization_msgs::msg::Marker::LINE_STRIP;
+    marker.action = visualization_msgs::msg::Marker::ADD;
+    marker.scale.x = 0.1;  // Line width
+    marker.color.r = 1.0;
+    marker.color.g = 0.0;
+    marker.color.b = 0.0;
+    marker.color.a = 1.0;
 
-        // Define square vertices
-        geometry_msgs::msg::Point point;
-        point.x = 1.0;
-        point.y = 1.0;
-        point.z = 0.0;
-        square_marker_.points.push_back(point);
+    // Populate the line strip with points
+    // for (int i = 0; i < 10; ++i) {
+      auto point = geometry_msgs::msg::Point();
+      point.x = 2;
+      point.y = 2;
+      point.z = 0;
+      marker.points.push_back(point);
+    // }
 
-        point.x = 1.0;
-        point.y = -1.0;
-        point.z = 0.0;
-        square_marker_.points.push_back(point);
+    markerArray->markers.push_back(marker);
 
-        point.x = -1.0;
-        point.y = -1.0;
-        point.z = 0.0;
-        square_marker_.points.push_back(point);
+    publisher_->publish(*markerArray);
+  }
 
-        point.x = -1.0;
-        point.y = 1.0;
-        point.z = 0.0;
-        square_marker_.points.push_back(point);
-
-        // Closing the loop
-        point.x = 1.0;
-        point.y = 1.0;
-        point.z = 0.0;
-        square_marker_.points.push_back(point);
-
-        // Publish the square marker
-        marker_publisher_->publish(square_marker_);
-    }
-
-    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_publisher_;
-    visualization_msgs::msg::Marker square_marker_;
+  rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr publisher_;
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
 int main(int argc, char** argv) {
-    rclcpp::init(argc, argv);
-    auto node = std::make_shared<SquareMarkerPublisher>();
-    rclcpp::spin(node);
-    rclcpp::shutdown();
-    return 0;
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<LineStripPublisher>());
+  rclcpp::shutdown();
+  return 0;
 }
