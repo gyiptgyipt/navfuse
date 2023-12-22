@@ -41,11 +41,16 @@ add_executable(gps_frame src/gps_frame.cpp)
 ament_target_dependencies(gps_frame rclcpp sensor_msgs GeographicLib visualization_msgs tf2 tf2_ros)
 
 
-add_executable(cube_test src/cube_test.cpp)
-ament_target_dependencies(cube_test visualization_msgs rclcpp)
 
-add_executable(line_strip_tuto src/line_trip_tuto.cpp)
-ament_target_dependencies(line_strip_tuto visualization_msgs rclcpp)
+add_executable(square src/square.cpp)
+ament_target_dependencies(square rclcpp sensor_msgs GeographicLib visualization_msgs tf2 tf2_ros)
+
+
+# add_executable(cube_test src/cube_test.cpp)
+# ament_target_dependencies(cube_test visualization_msgs rclcpp)
+
+# add_executable(line_strip_tuto src/line_trip_tuto.cpp)
+# ament_target_dependencies(line_strip_tuto visualization_msgs rclcpp)
 
 
 # add_executable(gps_transform_publisher src/gps_transform_publisher.cpp)
@@ -54,9 +59,9 @@ ament_target_dependencies(line_strip_tuto visualization_msgs rclcpp)
 
 
 install(TARGETS
-  gps_frame
-  cube_test
-  line_strip_tuto
+  square
+  # cube_test
+  # line_strip_tuto
   #gps_transform_publisher
   DESTINATION lib/${PROJECT_NAME})
 
@@ -71,7 +76,7 @@ install(DIRECTORY
 # install(FILES launch/test.launch.xml
 #   DESTINATION share/${PROJECT_NAME}/launch)
 
-install(PROGRAMS demo_data/publish_demo_data
+install(PROGRAMS demo_data/square_gps.py
   DESTINATION lib/${PROJECT_NAME})
 
 install(PROGRAMS

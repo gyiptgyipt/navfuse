@@ -91,10 +91,11 @@ private:
         // std::cout<<p.x<<std::endl;
 
 
-        line_strip.header.frame_id = "line_strip";
+        line_strip.header.frame_id = "linestrip";
         line_strip.type = visualization_msgs::msg::Marker::LINE_STRIP;
         line_strip.action = visualization_msgs::msg::Marker::ADD;
-        line_strip.scale.x = 5.5;  // Line width
+
+        line_strip.scale.x = 0.5;  // Line width
         line_strip.color.r = 1.0;
         line_strip.color.g = 0.0;
         line_strip.color.b = 0.0;
@@ -123,8 +124,8 @@ private:
         transform_stamped.header.stamp = this->get_clock()->now();
         transform_stamped.header.frame_id ="map";  // Parent frame
         transform_stamped.child_frame_id = "linestrip";   // Child frame
-        transform_stamped.transform.translation.x = 0;  
-        transform_stamped.transform.translation.y = 0.0;
+        transform_stamped.transform.translation.x = X;  
+        transform_stamped.transform.translation.y = Y;
         transform_stamped.transform.translation.z = 0.27; 
 
         tf2::Quaternion q;
