@@ -43,7 +43,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     package_dir = get_package_share_directory('navfuse')
-    config_file = os.path.join(package_dir, 'config', 'ekf_global.yaml')
+    config_file = os.path.join(package_dir, 'config', 'gpt_config.yaml')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
 

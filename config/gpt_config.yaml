@@ -1,0 +1,48 @@
+ekf_localization_node:
+  frequency: 50                # Frequency at which to run the filter (in Hz)
+  sensor_timeout: 0.1          # Time in seconds before a sensor is considered to have timed out
+  two_d_mode: false            # If true, ignores all 3D information (set true if operating in a 2D plane)
+  map_frame: "map"             # Global frame
+  odom_frame: "odom"           # Odom frame, where incremental integration is performed
+  base_link_frame: "base_link" # Vehicle body frame
+  world_frame: "odom"          # Frame that the EKF is referenced to
+
+  # IMU configuration
+  imu0: "/imu/data"
+  imu0_config: [false, false, false,  # X, Y, Z positions (disabled for IMU)
+                true, true, true,     # X, Y, Z velocities (enabled for IMU, assuming these are velocities from integration of accelerations)
+                false, false, true,   # X, Y, Z orientations (assuming yaw only - set to true)
+                false, false, false,  # X, Y, Z angular rates (disabled if the IMU does not provide reliable angular rates)
+                false, false, false]  # X, Y, Z linear accelerations (disabled, typically not used directly in EKF)
+  imu0_differential: false     # Whether or not to differentiate this sensor's data before integration
+  imu0_relative: true          # Whether or not this sensor's data is relative (e.g., changes in orientation) or absolute (e.g., total orientation)
+
+  # GPS configuration
+  gps0: "/gps/fix"
+  gps0_config: [true, true, false,  # X, Y, Z positions (enabled for X and Y, disabled Z if not using altitude)
+                false, false, false, # X, Y, Z velocities (disabled, as typical GPS units do not provide this)
+                false, false, false, # X, Y, Z orientations (disabled for GPS)
+                false, false, false, # X, Y, Z angular rates (disabled for GPS)
+                false, false, false] # X, Y, Z linear accelerations (disabled for GPS)
+  gps0_differential: false      # Differential GPS corrections (if available)
+  gps0_relative: false          # GPS data is absolute
+
+  # Process noise covariance matrix (tuned for specific sensor characteristics and platform dynamics)
+  process_noise_covariance: [1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    1.0, 0,    0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    1.0, 0,    0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,    1.0, 0,    0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,    0,    1.0, 0,    0,    0,    0,    0,    0,
+                             0,    0,    0,    0,    0,    0,    0,     0,    0,    1.0, 0,    0,    0,    0,    0]
+
+  # Initial estimate covariance matrix (typically set very low for initial certainty)
+  initial_estimate_covariance: [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                                0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                                0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                                0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                                0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+                                0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0]
